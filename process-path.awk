@@ -1,4 +1,6 @@
 {
+    link = "=HYPERLINK(CONCATENATE(\"https://github.com/VoronDesign/Voron-Trident/blob/VTr1/STLs/\", INDIRECT(CONCAT(\"F\", ROW()))), \"Link\")"
+    gsub(/"/, "\"\"", link)
     # find which field number contains the part file
     for (i=1; i<=NF; i++) {
         if ($i ~ /\.stl$/) {
@@ -21,6 +23,12 @@
         if (filename ~ /^\[a\]/) {
             color = "(ACCENT)" # ...unless the part is noted as accent
             sub(/^\[a\]_/, "", filename) # for the part name, remove the accent marker
+        } else if (filename ~ /^\[o\]/) {
+            color = "(OPAQUE)"
+            sub(/^\[o\]_/, "", filename)
+        } else if (filename ~ /^\[c\]/) {
+            color = "(CLEAR)"
+            sub(/^\[c\]_/, "", filename)
         }
 
         quantity = 1
@@ -35,9 +43,8 @@
         gsub(/_/, " ", component)
         gsub(/_/, " ", subcomponent)
 
-        printf("%s,%s,%s,%s,%d,%s\n",filename,component,subcomponent,color,quantity,$0)
+        printf("%s,%s,%s,%s,%d,%s,0,\"%s\"\n",filename,component,subcomponent,color,quantity,$0,link)
     } else { # no file field was found, which is probably a problem
         print "ERROR WILL ROBINSON"
     }
-
 }

@@ -18,7 +18,7 @@ fi
 BASE="$1"
 
 # CSV header
-echo 'partname,component,subcomponent,color,quantity,filepath'
+echo 'Part Name,Component,Subcomponent,Color,Quantity,Filepath,Printed? (#),Download'
 
 while read -r -d '' stlPath ; do
     stlPath="${stlPath##"${BASE}/"}" # strip $BASE from the path
